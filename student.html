@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+</head>
+<body>
+    <h1>Add Student</h1>
+    <form id="studentForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age"><br><br>
+        
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone"><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById("studentForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const phone = document.getElementById("phone").value;
+            const email = document.getElementById("email").value;
+
+            try {
+                const response = await fetch('/students', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, age, phone, email })
+                });
+                
+                if (response.ok) {
+                    alert('Student added successfully!');
+                    location.reload(); // Reload the page after successful submission
+                } else {
+                    alert('Failed to add student');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to add student');
+            }
+        });
+    </script>
+</body>
+</html>
